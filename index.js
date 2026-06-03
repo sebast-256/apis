@@ -4,8 +4,30 @@ let filtroActual = 'Todos';
 let personajeSecretoAsignado = null;
 let secretoRevelado = false;
 
+// Inicialización de la App
+window.solicitudAJAX = function() {
+    let data = "";
+    let xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function () {
+    if (xhr.readyState == 4 && xhr.status == 200) {
+        try {
+            data = JSON.parse(xhr.responseText);
+            mostrarPeliculas(data);
+            inicializarTableroJuego(data);
+            localStorage.setItem("marvelMovies",JSON.stringify(data));
+        } catch (error) {
+            console.log(error);
+        }
+    }
+}
+
+xhr.open("GET","movies.txt",true);
+xhr.send();
+     // Carga el tablero del juego automáticamente
+}
+
 // 1. Renderizado de tarjetas (Base de datos)
-function mostrarPeliculas(listaFiltrada = marvelMovies) {
+function mostrarPeliculas(listaFiltrada) {
     const contenedor = document.getElementById("ConteinerCard");
     contenedor.innerHTML = "";
 
@@ -37,7 +59,7 @@ function mostrarPeliculas(listaFiltrada = marvelMovies) {
 // Lógica de Búsqueda y Filtrado Combinado
 window.buscar = function() {
     const textoInput = document.getElementById("nPokemon").value.toLowerCase().trim();
-    
+    const marvelMovies = JSON.parse(localStorage.getItem("marvelMovies"));
     const resultado = marvelMovies.filter(personaje => {
         const coincideTexto = (textoInput === "") || 
                               (personaje.id.toString() === textoInput) || 
@@ -68,6 +90,7 @@ window.filtrarBando = function(bando, botonPresionado) {
 
 // Personaje Aleatorio (Sorpréndeme)
 window.heroeAleatorio = function() {
+    const marvelMovies = localStorage.getItem("marvelMovies");
     const randomIndex = Math.floor(Math.random() * marvelMovies.length);
     const personajeMisterioso = marvelMovies[randomIndex];
     abrirModal(personajeMisterioso.id);
@@ -75,6 +98,7 @@ window.heroeAleatorio = function() {
 
 // Función para inyectar datos en el Modal y abrirlo
 window.abrirModal = function(id) {
+    const marvelMovies = localStorage.getItem("marvelMovies");
     const personaje = marvelMovies.find(p => p.id === id);
     
     if (personaje) {
@@ -93,12 +117,12 @@ window.abrirModal = function(id) {
 // ================= PIEZA NUEVA: LÓGICA DEL JUEGO "ADIVINA QUIÉN" =================
 
 // Genera el tablero compacto para el juego
-function inicializarTableroJuego() {
+function inicializarTableroJuego(data) {
     const tablero = document.getElementById("tableroJuego");
     tablero.innerHTML = "";
 
     let tableroHTML = "";
-    marvelMovies.forEach(personaje => {
+    data.forEach(personaje => {
         tableroHTML += `
             <div class="col">
                 <div class="card game-card text-white h-100 pointer-cursor text-center" id="game-card-${personaje.id}" onclick="conmutarDescarte(${personaje.id})">
@@ -126,6 +150,7 @@ window.conmutarDescarte = function(id) {
 
 // Elige un personaje al azar para el jugador de esta máquina
 window.generarPersonajeSecreto = function() {
+    const marvelMovies = localStorage.getItem("marvelMovies");
     const randomIndex = Math.floor(Math.random() * marvelMovies.length);
     personajeSecretoAsignado = marvelMovies[randomIndex];
     secretoRevelado = false;
@@ -181,8 +206,3 @@ window.reiniciarTableroJuego = function() {
     inicializarTableroJuego();
 }
 
-// Inicialización de la App
-window.solicitudAJAX = function() {
-    mostrarPeliculas();
-    inicializarTableroJuego(); // Carga el tablero del juego automáticamente
-}

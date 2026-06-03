@@ -1,4 +1,4 @@
-const marvelMovies = [
+[
     {
         "id": 1,
         "titulo": "Spider-Man",
@@ -91,7 +91,7 @@ const marvelMovies = [
         "id": 12,
         "titulo": "Wolverine",
         "anio": "1974",
-        "bando": "Héroe",
+        "bando": "Anti-héroe",
         "imagen_url": "https://cdn.mos.cms.futurecdn.net/vxcLorRdyZPjbmoZ7Sf6VQ.jpg",
         "descripcion": "Un mutante con un factor de curación acelerado, sentidos animales y un esqueleto recubierto de adamantium indestructible con garras retráctiles."
     },
@@ -239,4 +239,4 @@ const marvelMovies = [
         "imagen_url": "https://cdn.marvel.com/content/2x/1_88a91.png",
         "descripcion": "Quentin Beck es un ex-especialista en efectos especiales e ilusiones ópticas que usa la tecnología para simular superpoderes y cometer crímenes."
     }
-];
+]
