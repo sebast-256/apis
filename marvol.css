@@ -149,7 +149,7 @@ body {
 
 /* Mensaje vacío */
 .text-muted-custom {
-    color: #666673;
+    color: #ffffff;
 }
 
 /* Indicador de interactividad en tarjetas */
@@ -259,4 +259,14 @@ body {
 
 .game-secret-card-box.hidden-state h4 {
     text-shadow: 0 2px 5px rgba(0, 0, 0, 0.9);
+}
+
+/* Sobrescribe el color gris de Bootstrap dentro de tus tarjetas Marvel */
+.marvel-card .text-muted {
+    color: rgba(255, 255, 255, 0.7) !important; /* Blanco semitransparente legible */
+}
+
+/* O si prefieres un blanco completamente puro y brillante: */
+.marvel-card .card-subtitle {
+    color: #ffffff !important;
 }
